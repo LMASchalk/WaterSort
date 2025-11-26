@@ -4,3 +4,5 @@ A replica of a popular game where you sort bottles based on different coloured l
 ## How to use
 To start just run the UI.py
 
+## To implement
+1. A better mode where you can give a gamestate in a nice way maybe with a UI and it returns a solution with both a list of steps and some visual way. 
