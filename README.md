@@ -36,4 +36,25 @@ remove_content(), Removes the top colour from the bottle.
 ### GameInitializer.py
 Contains the class to generate a WaterSort game, WaterSortGame(size: int, capacity: int,layout: list). 
 
-This class has three properties: gamestate (list of bottles of class (Bottle)), capacity (maximal amount of liquid which can fit in the bottle)
+This class has three properties: gamestate (list of bottles of class (Bottle)), capacity (maximal amount of liquid which can fit in the bottle) and size (the amount of bottles in the game). The GameInitializer class has the following methods:
+
+
+show_gamestate(), prints the contents of all bottles in the game.
+
+get_content_bottles(), returns a list of lists where each list in the list is a list of colours inside each bottle.
+
+transfer_liquid(bottle_1: int,bottle_2: int), makes a move where liquid is transfered between bottles adhering to the rules of the game. Whenever it is an illegal move nothing will happen. 
+
+is_finished(), returns whether the game is finished (bool).
+
+is_transfer_possible(move), returns if it is an legal move (bool).
+
+get_layout(), returns a list containing the layout of the gamestate.
+
+###
+
+
+
+
+
+
