@@ -51,9 +51,31 @@ is_transfer_possible(move), returns if it is an legal move (bool).
 
 get_layout(), returns a list containing the layout of the gamestate.
 
-###
+### Tree.py
+Contains two classes Node(edge_pointer,eval_score,move) and Tree. These two classes are at the core of the AI solver. The Node class has the following methods:
 
 
+edge(), returns the pointer of this node (Node object)
+
+score(), returns the score attached to this node (int)
+
+move(), returns the move which led to this node so the move from the previous node to this node.
+
+
+The Tree class has the following methods:
+
+
+add_node(node), adds a node to the list of nodes of the Tree.
+
+nodes(), returns the list of nodes in the current Tree
+
+has_children(target_node), if there is a node which has a pointer towards the target node (bool). 
+
+get_leafnode(), Returns a list of all the bottom nodes of the tree (list).
+
+get_movelist(node), Walks up the tree from node up to the root node to find the movelist to reach this gamepoint (list).
+
+get_bestnode(), Chooses the best scoring node among all leafnodes (Node).
 
 
 
