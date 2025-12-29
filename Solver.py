@@ -103,7 +103,8 @@ def solver_initializer_ui(screen_width,screen_height):
                 if enter_button.is_clicked(click):
                     print(f"Game size: {game_size}\nCapacity: {capacity}")
                     solver_layout_ui(game_size,capacity,screen_width,screen_height)
-                
+
+                    
                 if increase_button.is_clicked(click):
                     game_size += 1 
                     
@@ -258,8 +259,7 @@ def solver_layout_ui(game_size,capacity,screen_width,screen_height,layout=None):
     bottle_width = 0.4
     bottle_edge_thickness = 0.05
     background_color = (105,105,105)    
-    game_size = 8
-    capacity = 4
+
     
     bottle_positions,bottle_size = GetBottlePositions(game_size,bottle_width,screen_width,screen_height)
     
@@ -300,7 +300,9 @@ def solver_layout_ui(game_size,capacity,screen_width,screen_height,layout=None):
         
         if click != None:
             if enter_button.is_clicked(click):
-                print(layout)
+                SolveInstance = WaterSortGame(game_size,capacity,layout)
+                AI_assistance(SolveInstance,screen_width,screen_height,print_movelist=True)
+ 
         
         # fill the screen with a color to wipe away anything from last frame
         screen.fill((105,105,105))
@@ -323,7 +325,7 @@ def solver_layout_ui(game_size,capacity,screen_width,screen_height,layout=None):
         
      
 if __name__ == "__main__":
-    #solver_initializer_ui(1000,600)
-    layout = [[] for _ in range(8 )]   
-    layout[0] = ['Red','Green','Orange','Yellow']
-    color_selector_ui(layout,0,8,4,1000,600)
+    solver_initializer_ui(1000,600)
+    # layout = [[] for _ in range(8 )]   
+    # layout[0] = ['Red','Green','Orange','Yellow']
+    # color_selector_ui(layout,0,8,4,1000,600)

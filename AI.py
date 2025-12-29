@@ -144,7 +144,7 @@ def solve_gameinstance(GameInstance, iterations=1000,show_iterations=True) -> li
     return tree.get_movelist(current_node)   
 
 # This is the visual aspect
-def AI_assistance(GameInstance,screen_width,screen_height,level=1,iterations = 2000,speed=0.5):
+def AI_assistance(GameInstance,screen_width,screen_height,level=1,iterations = 2000,speed=0.5,print_movelist = False):
     import pygame
     from Game import watersort
     from UI import UI
@@ -242,6 +242,8 @@ def AI_assistance(GameInstance,screen_width,screen_height,level=1,iterations = 2
         # This first lets the gamestate be drawn and then after 10 frames it will initiate the search for the movelist
         if i == 10:
             movelist = solve_gameinstance(GameInstance,iterations=iterations)
+            if print_movelist:
+                print(movelist)
             i+=1
         else: 
             i+=1
