@@ -267,6 +267,7 @@ def generate_layout(game_size:int,capacity:int,level:int) -> list:
     # We will need two empty bottle so we need gamesize - 2 amount of different colors 
     colors = colors[0:game_size-2]
     layout = [[] for _ in range(game_size)]
+    print(layout)
     options = [color for color in colors for _ in range(capacity)]
     for i in range(game_size-2):
         for _ in range(capacity):
@@ -301,3 +302,6 @@ class Button:
     
     def name(self) -> str:
         return self.__name
+
+if __name__ == "__main__":
+    generate_layout(8,4,1)

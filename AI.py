@@ -60,12 +60,14 @@ def get_evaluation_list(GameInstance) -> list:
     game_size = GameInstance.size + 1
     choices = []
     
+    # Creates a list of all possible moves which adhere to the game rules (choices)
     for i in range(game_size):
         for j in range(game_size):
             if i != j:
                 if GameInstance.is_transfer_possible((i,j)):
                     choices.append((i,j))
 
+    # Evaluates each move and adds their score to current_evals
     for move in choices:
         b1,b2 = move
         tmp = copy.deepcopy(GameInstance)
@@ -73,8 +75,9 @@ def get_evaluation_list(GameInstance) -> list:
         current_evals.append(evaluate(tmp))
     
     return current_evals, choices
- 
-def solve_gameinstance(GameInstance, iterations=1000) -> list:
+
+# This is the logic behind the AI 
+def solve_gameinstance(GameInstance, iterations=1000,show_iterations=True) -> list:
     """ 
     It analyses a GameInstance and returns a list of moves which lead to the best possible result.
 
@@ -133,18 +136,15 @@ def solve_gameinstance(GameInstance, iterations=1000) -> list:
         
         i+=1
         
-        
-        if i == int(iterations / 4):
-            print('analysis 25%')
-        elif i == int(iterations / 2):
-            print('analysis 50%')
-        elif i == int(iterations*3/4):
-            print('analysis 75%')
-        
+        # Prints iteration every 100 iterations.
+        if show_iterations:
+            if i % 100 == 0:
+                print(f'Itteration: {i}')
         
     return tree.get_movelist(current_node)   
 
-def AI_assistance(GameInstance,screen_width,screen_height,level=1,iterations = 2000,speed=0.5):
+# This is the visual aspect
+def AI_assistance(GameInstance,screen_width,screen_height,level=1,iterations = 2000,speed=0.5,print_movelist = False):
     import pygame
     from Game import watersort
     from UI import UI
@@ -242,6 +242,8 @@ def AI_assistance(GameInstance,screen_width,screen_height,level=1,iterations = 2
         # This first lets the gamestate be drawn and then after 10 frames it will initiate the search for the movelist
         if i == 10:
             movelist = solve_gameinstance(GameInstance,iterations=iterations)
+            if print_movelist:
+                print(movelist)
             i+=1
         else: 
             i+=1
@@ -343,7 +345,6 @@ def AI_assistance(GameInstance,screen_width,screen_height,level=1,iterations = 2
         
         pygame.display.flip()  # Refresh on-screen display
         clock.tick(60)         # wait until next frame (at 60 FPS)
-
 
 if __name__ == "__main__":
 

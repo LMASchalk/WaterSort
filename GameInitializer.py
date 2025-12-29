@@ -86,7 +86,9 @@ class WaterSortGame:
             layout.append(bottle.content)
         
         return layout
-        
+    
+    ## Maybe add the evaluate function directly as a method of GameInitializer class
+    ## and same as evaluate list
         
         
 

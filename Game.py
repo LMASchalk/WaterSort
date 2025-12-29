@@ -1,13 +1,12 @@
+import pygame
+from AI import AI_assistance
+from UI import UI
+from Sprites import draw_gamestate, draw_selection,button_sprite
+from GameInitializer import WaterSortGame
+from Animation import Animation
+from HelperFunctions import GetBottlePositions,find_clicked_bottle, user_input_to_action,game_is_finished,start_animations, generate_layout, Button
+
 def watersort(game_size,capacity,level,screen_width,screen_height, GameInstance=None):
-    import pygame
-    from AI import AI_assistance
-    from UI import UI
-    from Sprites import draw_gamestate, draw_selection,button_sprite
-    from GameInitializer import WaterSortGame
-    from Animation import Animation
-    from HelperFunctions import GetBottlePositions,find_clicked_bottle, user_input_to_action,game_is_finished,start_animations, generate_layout, Button
-
-
     if GameInstance == None:
         # Input for the game settings
         layout = generate_layout(game_size,capacity,level)
@@ -18,7 +17,6 @@ def watersort(game_size,capacity,level,screen_width,screen_height, GameInstance=
         game_size = GameInstance.size + 1
         capacity = GameInstance.capacity
         
-    
     # Graphical Input
     bottle_width = 0.4
     bottle_edge_thickness = 0.05
@@ -190,5 +188,8 @@ def watersort(game_size,capacity,level,screen_width,screen_height, GameInstance=
         pygame.display.flip()  # Refresh on-screen display
         clock.tick(60)         # wait until next frame (at 60 FPS)
 
+
+
+    
 if __name__ == "__main__":
     watersort(8,4,1,1000,600)

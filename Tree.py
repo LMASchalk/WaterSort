@@ -24,9 +24,7 @@ class Node:
             depth += 1
         
         return depth
-        
-        
-            
+                 
 class Tree:
     def __init__(self):
         self.__nodes = []
