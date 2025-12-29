@@ -1,5 +1,6 @@
 def UI(level=1):
     from Game import watersort
+    from Solver import solver_initializer_ui
     import pygame
     from Sprites import button_sprite
     from HelperFunctions import Button
@@ -73,6 +74,12 @@ def UI(level=1):
     decrease_button = Button(button_rect,sprite,'dcr_btn')
     drawn_items.append(decrease_button)
     
+    # Solver mode button
+    sprite = button_sprite((150,50),'Black','White','Solver mode')
+    button_rect = sprite.get_rect(center=((screen_width / 2), (screen_height/4) - 100))
+    solver_button = Button(button_rect,sprite,'slvr_btn')
+    drawn_items.append(solver_button)
+        
     running = True
     while running:
         click = None
@@ -103,6 +110,10 @@ def UI(level=1):
             if start_button.is_clicked(click):
                 pygame.quit()
                 watersort(game_size,capacity,level,screen_width,screen_height)
+            
+            if solver_button.is_clicked(click):
+                pygame.quit()
+                solver_initializer_ui(screen_width,screen_height)
                 
             if easy_button.is_clicked(click):
                 game_size = 6
