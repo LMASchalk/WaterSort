@@ -1,7 +1,7 @@
 import pygame
 from AI import AI_assistance
 from UI import UI
-from Sprites import draw_gamestate, draw_selection,button_sprite
+from Sprites import draw_gamestate, draw_selection,button_sprite,draw_bottle
 from GameInitializer import WaterSortGame
 from Animation import Animation
 from HelperFunctions import GetBottlePositions,find_clicked_bottle, user_input_to_action,game_is_finished,start_animations, generate_layout, Button
@@ -160,16 +160,43 @@ def solver_initializer_ui(screen_width,screen_height):
 def color_selector_ui(layout,chosen_bottle,game_size,capacity,screen_width,screen_height):
     ## UI to select the contents of a bottle
     
+    colors = ['Red','Blue','Green','yellow','Orange','Purple','cadetblue2','darkcyan','darkmagenta','crimson']
+    cur_layout = layout[chosen_bottle]
+    
     pygame.init()
     screen = pygame.display.set_mode((screen_width,screen_height))
     clock = pygame.time.Clock()
     pygame.display.set_caption('Water Sort! Solver!')    
-
- 
     
+    # The enter button
+    sprite = button_sprite((200,75),'Black','White','Confirm')
+    button_rect = sprite.get_rect(center=(screen_width / 4 - 50, screen_height/2))
+    confirm_button = Button(button_rect,sprite,'ntr_btn')
+    
+    # Var that keeps track of what is pressed considering swatch/bottle
+    select = 0
     
     # Game loop
     while True:
+        screen.fill((105,105,105))
+        confirm_button.draw(screen)
+        # Made an incredibly difficult algorithm which was replaced by these two beautifull numbers
+        # I am just going to ignore fixing this now. It is just the box within the bottle sits on the x axis
+        # Deal with it. 
+        x = (screen_width/2 - 100) + 25
+        w = 150
+        
+        draw_bottle(screen,screen_width/2 - 100,screen_height/2 - 250,500,0.4,0.05,cur_layout,capacity)
+        
+        # Draws the swatch to the right hand of the screen 
+        size = screen_height / len(colors)
+        for i,color in enumerate(colors): 
+            pygame.draw.rect(
+            screen,
+            color,
+            (screen_width - size,0 + (i*size),size,size)
+            )
+        
         click = None
         ## Process player inputs.
         for event in pygame.event.get():
@@ -182,15 +209,51 @@ def color_selector_ui(layout,chosen_bottle,game_size,capacity,screen_width,scree
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     raise SystemExit
-    
-        screen.fill((105,105,105))
+            # Registers a mouse click and stores the location of the click in x_click and y_click
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                click = event.pos
+                x_click, y_click = click
+                
+                # Confirm bottle:
+                if confirm_button.is_clicked(click):
+                    layout[chosen_bottle] = cur_layout
+                    solver_layout_ui(game_size,capacity,screen_width,screen_height,layout=layout)
+                
+                # Checks if the bottle was pressed
+                if x_click > x and x_click < x + w:
+                    # Add stuff if swatch was pressed
+                    if type(select) == str:
+                        if len(cur_layout) != capacity:
+                            cur_layout.append(select)
+                        select = 0
+                        
+                    # Double press removes stuff
+                    elif select > 0 and len(cur_layout) != 0:
+                        cur_layout.pop() 
+                        select = 0
+                    else:
+                        select = 1                        
+                    
+                # Checks if you pressed swatch
+                elif x_click > screen_width - size: 
+                    # Checks which swatch you pressed. Chefs kiss solution. 
+                    size_swatch  = screen_height / len(colors)
+                    j = y_click // size_swatch
+                    select = colors[int(j)]
+                
+                # Check if you clicked away
+                else:
+                    select = 0
+                             
+ 
         pygame.display.flip()
         clock.tick(60)  
+
     
-def solver_layout_ui(game_size,capacity,screen_width,screen_height):
+def solver_layout_ui(game_size,capacity,screen_width,screen_height,layout=None):
     ## UI to get the layout of the game
-    
-    layout = [[] for _ in range(game_size)]    
+    if layout == None:
+        layout = [[] for _ in range(game_size)]  
     # Graphical Input
     bottle_width = 0.4
     bottle_edge_thickness = 0.05
@@ -260,4 +323,7 @@ def solver_layout_ui(game_size,capacity,screen_width,screen_height):
         
      
 if __name__ == "__main__":
-    solver_initializer_ui(1000,600)
+    #solver_initializer_ui(1000,600)
+    layout = [[] for _ in range(8 )]   
+    layout[0] = ['Red','Green','Orange','Yellow']
+    color_selector_ui(layout,0,8,4,1000,600)

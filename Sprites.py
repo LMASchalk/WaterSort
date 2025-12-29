@@ -9,20 +9,26 @@ def draw_bottle(screen,x:int,y:int,size:int,width:float,thickness:float,content:
     # Creates a rectangle which will be the body of the bottle
     pygame.draw.rect(rectangle_surface,(0,0,0),(0,0,width_bottle,size),width=edge_width)
     pygame.draw.rect(rectangle_surface,(0,0,0,0),(edge_width,0,(width_bottle - (edge_width * 2)), edge_width))
-    
+        
     # Creates the fluid in the bottle with the appropriate color
     fluid_size = ((size - (edge_width*2))/ capacity)
     for i,color in enumerate(content,1):
+        x_col = edge_width
+        y_col = (size-edge_width)-(fluid_size*i) 
+        w = width_bottle - (edge_width * 2)
+        h = fluid_size
+        
         pygame.draw.rect(rectangle_surface,color,
         (
-            edge_width, # x
-            (size-edge_width)-(fluid_size*i), # y
-            width_bottle - (edge_width * 2), # width
-            fluid_size  # height
+            x_col, # x
+            y_col, # y
+            w, # width
+            h  # height
         ))
+
     
     screen.blit(rectangle_surface,(x,y))
- 
+
 def draw_gamestate(screen,contents:list,capacity:int,n_bottles:int,bottle_width:float,bottle_thickness:float,screen_width:int,screen_height:int,BorderSize=50,SpacingY=40):
     BottlePositions,size = GetBottlePositions(n_bottles,bottle_width,screen_width,screen_height,BorderSize,SpacingY)
 
